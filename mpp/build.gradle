@@ -4,9 +4,10 @@ plugins {
 }
 
 // could be adapted to check if there is an Android SDK, and not using it if not needed
-boolean useAndroid = !(System.env.CI && System.env.TRAVIS_OS_NAME == "osx")
+boolean useAndroid = !(System.env.CI && System.env.TRAVIS_OS_NAME == "osx") || System.env.MPP_NO_ANDROID_SDK
 
 if (!useAndroid) {
+    println "Not using Android SDK because we are on macos CI or because it was requested by the user."
     apply plugin:"java"
 }
 else {
@@ -18,6 +19,7 @@ version = 1.0
 
 if (useAndroid) {
     android {
+
         compileSdkVersion 27
 
         defaultConfig {
@@ -141,6 +143,25 @@ task iosTest {
         def binary = kotlin.targets.ios.compilations.test.getBinary('EXECUTABLE', 'DEBUG')
         exec {
             commandLine 'xcrun', 'simctl', 'spawn', device, binary.absolutePath
+        }
+    }
+}
+
+
+// output test results to console
+tasks.withType(Test) {
+    testLogging {
+        events "started", "passed", "skipped", "failed"
+    }
+
+
+    // https://stackoverflow.com/a/36130467/2338613
+    afterSuite { desc, result ->
+        if (!desc.parent) { // will match the outermost suite
+            def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+            def startItem = '|  ', endItem = '  |'
+            def repeatLength = startItem.length() + output.length() + endItem.length()
+            println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
         }
     }
 }

@@ -33,6 +33,13 @@ To run kotlin tests (including the [common ones](mpp/src/commonTest/kotlin/Calcu
 ./gradlew :mpp:iosTest
 ```
 
+If you do not have the Android SDK installed, you can define an environment variable which will skip the Android specific parts of the build:
+
+```bash
+MPP_NO_ANDROID_SDK=true ./gradlew iosTest
+```
+
+
 ## Android
 
 The application can be built and executed on a device or emulator using Android Studio (tested with 3.2).
