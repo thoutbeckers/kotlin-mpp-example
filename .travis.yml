@@ -9,6 +9,9 @@ matrix:
           language: generic
           jdk: oraclejdk8
           osx_image: xcode10
+env:
+  global:
+  - TERM=dumb
 
 android:
   components:
@@ -21,5 +24,5 @@ android:
   - extra-google-m2repository
 
 script:
-  - ./gradlew :mpp:build
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./gradlew iosTest
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./gradlew :mpp:build ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./gradlew iosTest ; fi
