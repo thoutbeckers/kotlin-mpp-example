@@ -17,20 +17,20 @@ This works because there is a custom shellscript build phase in the MPP framewor
 
 To compile a framework for ios simulator from the command line yourself execute:
 
-```
-  > ./gradlew :mpp:build
+```bash
+./gradlew :mpp:build
 ```
 
 To compile the framework for a device use the `device` project property:
 
-```
-  > ./gradlew :mpp:build -Pdevice=true
+```bash
+./gradlew :mpp:build -Pdevice=true
 ```
 
 To run kotlin tests (including the [common ones](mpp/src/commonTest/kotlin/CalculatorTest.kt)) after they're compiled by Kotlin/Native:
 
-```
-  > ./gradlew iosTest
+```bash
+./gradlew :mpp:iosTest
 ```
 
 ## Android
@@ -39,6 +39,12 @@ The application can be built and executed on a device or emulator using Android 
 
 One can also compile the application and run tests from the command line:
 
+```bash
+./gradlew :mpp:build
 ```
-   > ./gradlew :mpp:build
+
+If you're not on macos, you can run only the android part:
+
+```bash
+./gradlew mpp:assembleDebug
 ```
