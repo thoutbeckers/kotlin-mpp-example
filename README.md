@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/thoutbeckers/kotlin-mpp-example.svg?branch=master)](https://travis-ci.org/thoutbeckers/kotlin-mpp-example)
+
 # Multiplatform sample
 This example shows how to use Kotlin/Native in the multiplatform world.
 
