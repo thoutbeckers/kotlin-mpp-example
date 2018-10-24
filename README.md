@@ -39,6 +39,7 @@ If you do not have the Android SDK installed, you can define an environment vari
 MPP_NO_ANDROID_SDK=true ./gradlew iosTest
 ```
 
+You can also add this variable to the custom shell script in the Framework build in XCode.
 
 ## Android
 
