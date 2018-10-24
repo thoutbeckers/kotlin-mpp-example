@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		139298E321809364004B4F64 /* mpp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1381AF07217F72D900D989B8 /* mpp.framework */; };
 		139298E42180936E004B4F64 /* mpp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1381AF07217F72D900D989B8 /* mpp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		139298E821809834004B4F64 /* src in Resources */ = {isa = PBXBuildFile; fileRef = 139298E721809833004B4F64 /* src */; };
 		F861D7E1207FA40F0085E80D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F861D7E0207FA40F0085E80D /* AppDelegate.swift */; };
 		F861D7E3207FA40F0085E80D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F861D7E2207FA40F0085E80D /* ViewController.swift */; };
 		F861D7E6207FA40F0085E80D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F861D7E4207FA40F0085E80D /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		1381AF07217F72D900D989B8 /* mpp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = mpp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		139298E721809833004B4F64 /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../mpp/src; sourceTree = "<group>"; };
 		F861D7DD207FA40F0085E80D /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F861D7E0207FA40F0085E80D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F861D7E2207FA40F0085E80D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 		F861D7D4207FA40F0085E80D = {
 			isa = PBXGroup;
 			children = (
+				139298E721809833004B4F64 /* src */,
 				F861D7DF207FA40F0085E80D /* iosApp */,
 				F861D7F4207FA4100085E80D /* iosAppTests */,
 				F861D7DE207FA40F0085E80D /* Products */,
@@ -226,6 +229,7 @@
 				F861D7EB207FA4100085E80D /* LaunchScreen.storyboard in Resources */,
 				F861D7E8207FA4100085E80D /* Assets.xcassets in Resources */,
 				F861D7E6207FA40F0085E80D /* Main.storyboard in Resources */,
+				139298E821809834004B4F64 /* src in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

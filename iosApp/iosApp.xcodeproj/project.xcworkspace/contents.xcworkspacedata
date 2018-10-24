@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../../mpp">
+      location = "container:../../mpp/src">
    </FileRef>
    <FileRef
       location = "self:">
