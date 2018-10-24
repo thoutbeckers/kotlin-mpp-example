@@ -25,4 +25,4 @@ android:
 
 script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./gradlew :mpp:build ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./gradlew iosTest ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./gradlew :mpp:iosTest ; fi

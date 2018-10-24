@@ -1,59 +1,72 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.application' apply false
     id 'org.jetbrains.kotlin.multiplatform'
+}
+
+// could be adapted to check if there is an Android SDK, and not using it if not needed
+boolean useAndroid = !(System.env.CI && System.env.TRAVIS_OS_NAME == "osx")
+
+if (!useAndroid) {
+    apply plugin:"java"
+}
+else {
+    apply plugin: "com.android.application"
 }
 
 group = 'houtbecke.rs.mpp'
 version = 1.0
 
-android {
-    compileSdkVersion 27
+if (useAndroid) {
+    android {
+        compileSdkVersion 27
 
-    defaultConfig {
+        defaultConfig {
 
-        applicationId "houtbecke.rs.mpp.android"
-        minSdkVersion 15
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
+            applicationId "houtbecke.rs.mpp.android"
+            minSdkVersion 15
+            targetSdkVersion 27
+            versionCode 1
+            versionName "1.0"
+            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        }
 
-    packagingOptions {
-        exclude 'META-INF/main.kotlin_module'
-    }
+        packagingOptions {
+            exclude 'META-INF/main.kotlin_module'
+        }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            }
         }
     }
-}
 
-// below are the dependencies for the Android app
-// common/iOS dependencies are inside the kotlin sourceset declarations
-dependencies {
+    // below are the dependencies for the Android app
+    // common/iOS dependencies are inside the kotlin sourceset declarations
+    dependencies {
 
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+        implementation 'com.android.support:appcompat-v7:27.1.1'
 
-    testImplementation 'junit:junit:4.12'
-    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+        testImplementation 'junit:junit:4.12'
+        testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+        testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
-    androidTestImplementation 'junit:junit:4.12'
-    androidTestImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+        androidTestImplementation 'junit:junit:4.12'
+        androidTestImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+        androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
-    androidTestImplementation "com.android.support.test:runner:1.0.2"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+        androidTestImplementation "com.android.support.test:runner:1.0.2"
+        androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
 
+    }
 }
 
 kotlin {
     targets {
         // androidLib is bugged at the moment
-        fromPreset(presets.android, 'android')
+        if (useAndroid)
+            fromPreset(presets.android, 'android')
 
         def buildForDevice = project.findProperty("device")?.toBoolean() ?: false
         def iosPreset = (buildForDevice) ? presets.iosArm64 : presets.iosX64
@@ -83,10 +96,12 @@ kotlin {
             }
         }
 
-        androidMain {
-            dependencies {
-                implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-                implementation "io.ktor:ktor-client-android:1.0.0-beta-1"
+        if (useAndroid) {
+            androidMain {
+                dependencies {
+                    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+                    implementation "io.ktor:ktor-client-android:1.0.0-beta-1"
+                }
             }
         }
 
