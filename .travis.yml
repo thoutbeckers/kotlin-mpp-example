@@ -1,0 +1,21 @@
+matrix:
+    include:
+        - os: linux
+          language: android
+          sudo: false
+          jdk: oraclejdk8
+          dist: precise
+        - os: osx
+          language: generic
+          jdk: oraclejdk8
+          osx_image: xcode10
+
+android:
+  components:
+  - platform-tools
+  - tools
+  - build-tools-27.0.3
+  - android-27
+  - extra-android-support
+  - extra-android-m2repository
+  - extra-google-m2repository
