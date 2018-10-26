@@ -6,8 +6,7 @@ plugins {
 boolean useAndroid = System.properties.androidSdkFound
 
 if (useAndroid) {
-    apply plugin: "com.android.application"
-    apply plugin: 'com.google.gms.google-services'
+    apply plugin: "com.android.application"    
 }
 else {
     println "Not using applying the Android Plugin because the Android SDK was not found.\n" +
