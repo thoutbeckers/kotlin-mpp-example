@@ -3,15 +3,14 @@ plugins {
     id 'org.jetbrains.kotlin.multiplatform'
 }
 
-// could be adapted to check if there is an Android SDK, and not using it if not needed
-boolean useAndroid = !(System.env.CI && System.env.TRAVIS_OS_NAME == "osx") || System.env.MPP_NO_ANDROID_SDK
+boolean useAndroid = isAndroidSDKInstalled()
 
-if (!useAndroid) {
-    println "Not using Android SDK because we are on macos CI or because it was requested by the user."
-    apply plugin:"java"
+if (useAndroid) {
+    apply plugin: "com.android.application"
 }
 else {
-    apply plugin: "com.android.application"
+    println "Not using Android SDK because we are on macos CI or because it was requested by the user."
+    apply plugin:"java"
 }
 
 group = 'houtbecke.rs.mpp'
@@ -164,4 +163,15 @@ tasks.withType(Test) {
             println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
         }
     }
+}
+
+
+private boolean isAndroidSDKInstalled() {
+    def localProperties = new Properties()
+    def localPropertiesFile = file('local.properties')
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.withReader { localProperties.load(it) }
+    }
+
+    return (localProperties.containsKey("sdk.dir") || System.getenv('ANDROID_HOME') != null)
 }
