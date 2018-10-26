@@ -25,3 +25,11 @@ pluginManagement {
 enableFeaturePreview('GRADLE_METADATA')
 
 include ':mpp'
+
+def localProperties = new Properties()
+def localPropertiesFile = file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader { localProperties.load(it) }
+}
+
+System.properties.androidSdkFound =  (localProperties.containsKey("sdk.dir") || System.getenv('ANDROID_HOME') != null)
