@@ -3,14 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.multiplatform'
 }
 
-def localProperties = new Properties()
-def localPropertiesFile = file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader { localProperties.load(it) }
-}
-
-// could be adapted to check if there is an Android SDK, and not using it if not needed
-boolean useAndroid = (localProperties.containsKey("sdk.dir") || System.getenv('ANDROID_HOME') != null)
+boolean useAndroid = isAndroidSDKInstalled()
 
 if (useAndroid) {
     apply plugin: "com.android.application"
@@ -170,4 +163,15 @@ tasks.withType(Test) {
             println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
         }
     }
+}
+
+
+private boolean isAndroidSDKInstalled() {
+    def localProperties = new Properties()
+    def localPropertiesFile = file('local.properties')
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.withReader { localProperties.load(it) }
+    }
+
+    return (localProperties.containsKey("sdk.dir") || System.getenv('ANDROID_HOME') != null)
 }
