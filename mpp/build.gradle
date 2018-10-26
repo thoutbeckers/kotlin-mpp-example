@@ -3,9 +3,14 @@ plugins {
     id 'org.jetbrains.kotlin.multiplatform'
 }
 
+def localProperties = new Properties()
+def localPropertiesFile = file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader { localProperties.load(it) }
+}
+
 // could be adapted to check if there is an Android SDK, and not using it if not needed
-boolean dontUseAndroid = (System.env.CI && System.env.TRAVIS_OS_NAME == "osx") || System.env.MPP_NO_ANDROID_SDK
-boolean useAndroid = !dontUseAndroid
+boolean useAndroid = (localProperties.containsKey("sdk.dir") || System.getenv('ANDROID_HOME') != null)
 
 if (useAndroid) {
     apply plugin: "com.android.application"
