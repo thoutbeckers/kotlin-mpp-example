@@ -3,13 +3,15 @@ plugins {
     id 'org.jetbrains.kotlin.multiplatform'
 }
 
-boolean useAndroid = isAndroidSDKInstalled()
+boolean useAndroid = System.properties.androidSdkFound
 
 if (useAndroid) {
     apply plugin: "com.android.application"
+    apply plugin: 'com.google.gms.google-services'
 }
 else {
-    println "Not using Android SDK because we are on macos CI or because it was requested by the user."
+    println "Not using applying the Android Plugin because the Android SDK was not found.\n" +
+            "If you are developing for iOS only you can ignore this warning."
     apply plugin:"java"
 }
 
@@ -163,15 +165,4 @@ tasks.withType(Test) {
             println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
         }
     }
-}
-
-
-private boolean isAndroidSDKInstalled() {
-    def localProperties = new Properties()
-    def localPropertiesFile = file('local.properties')
-    if (localPropertiesFile.exists()) {
-        localPropertiesFile.withReader { localProperties.load(it) }
-    }
-
-    return (localProperties.containsKey("sdk.dir") || System.getenv('ANDROID_HOME') != null)
 }
