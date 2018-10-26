@@ -4,14 +4,15 @@ plugins {
 }
 
 // could be adapted to check if there is an Android SDK, and not using it if not needed
-boolean useAndroid = !(System.env.CI && System.env.TRAVIS_OS_NAME == "osx") || System.env.MPP_NO_ANDROID_SDK
+boolean dontUseAndroid = (System.env.CI && System.env.TRAVIS_OS_NAME == "osx") || System.env.MPP_NO_ANDROID_SDK
+boolean useAndroid = !dontUseAndroid
 
-if (!useAndroid) {
-    println "Not using Android SDK because we are on macos CI or because it was requested by the user."
-    apply plugin:"java"
+if (useAndroid) {
+    apply plugin: "com.android.application"
 }
 else {
-    apply plugin: "com.android.application"
+    println "Not using Android SDK because we are on macos CI or because it was requested by the user."
+    apply plugin:"java"
 }
 
 group = 'houtbecke.rs.mpp'
