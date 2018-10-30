@@ -1,9 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.konan.multiplatform">
+    package="houtbecke.rs.mpp">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-                 android:name="houtbecke.rs.mpp.MyApplication"
                  android:allowBackup="true"
                  android:supportsRtl="true"
                  android:theme="@style/AppTheme"

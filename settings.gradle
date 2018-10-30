@@ -24,4 +24,13 @@ pluginManagement {
 // needed for dependencies for iOS. Linked to using Gradle 4.7 (not higher, not lower)
 enableFeaturePreview('GRADLE_METADATA')
 
+def localProperties = new Properties()
+def localPropertiesFile = file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader { localProperties.load(it) }
+}
+
+System.properties.androidSdkFound =  (localProperties.containsKey("sdk.dir") || System.getenv('ANDROID_HOME') != null)
 include ':mpp'
+
+

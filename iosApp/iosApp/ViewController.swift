@@ -13,13 +13,11 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let product = Factory().create(config: ["user": "JetBrains"])
-        label.text = product.description
         
-        label.text = label.text!+"\n"+"Making network request..."
+        self.label.text = "making network request...\n"
         
         // Use a Kotlin/Native closure callback
-        Network().about(callback: {s in
+        Network(firestore: IOSFirestore()).about(callback: {s in
             let text = s.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
             self.label.text = self.label.text! + "\n" + text
             return KotlinUnit.init()

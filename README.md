@@ -1,15 +1,38 @@
 [![Build Status](https://travis-ci.org/thoutbeckers/kotlin-mpp-example.svg?branch=master)](https://travis-ci.org/thoutbeckers/kotlin-mpp-example)
 
 # Multiplatform sample
-This example shows how to use Kotlin/Native in the multiplatform world.
 
-This sample based on the [Jetbrains example](https://github.com/JetBrains/kotlin-mpp-example).
+This example shows how to use Kotlin/Native in the multiplatform world, in combination with Firebase.
 
-It is different in some ways:
-- It has a "common" dependency in the commonMain source set, the networking library ktor. This is then used by the iOS/Native and Android project by their respective implementation
-- This includes use of co-routines
-- It does not use an "androidLib" template, since this has bugs
-  
+## Important note
+
+Use a suitable Java version for running the Gradle tasks (only JDK8 is required). There are known problems with JDK11 and Gradle 4.7
+
+## Firestore
+It is currently only working for Firestore, and only the Android part of Firebase, even though this shows how to use common interfaces.
+
+This example uses a simple "Spark" plan Firebase as a default. You can replace `google-services.json` with your own.
+
+You can set the following rules in Firestore:
+
+```
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{user} {
+      allow write:
+         if exists(/databases/$(database)/documents/moods/$(request.resource.data.mood))
+         && user.matches("(?:🧐|🤓|😎|🤪|👽|🤖)")
+      allow read
+      allow list
+    }
+    match /moods/{mood} {
+      allow read, list
+    }
+  }
+}
+```
+
+
 ## iOS
 
 To compile the project from Xcode or Appcode just open `iosApp/iosApp.xcodeproj` and run the application.
