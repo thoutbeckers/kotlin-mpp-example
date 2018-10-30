@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/thoutbeckers/kotlin-mpp-example.svg?branch=master)](https://travis-ci.org/thoutbeckers/kotlin-mpp-example)
+[![Build Status](https://travis-ci.org/thoutbeckers/kotlin-mpp-example.svg?branch=firebase)](https://travis-ci.org/thoutbeckers/kotlin-mpp-example)
 
 # Multiplatform sample
 
