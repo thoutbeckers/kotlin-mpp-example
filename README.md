@@ -3,12 +3,17 @@
 # Multiplatform sample
 This example shows how to use Kotlin/Native in the multiplatform world.
 
+There is also a Firebase based example available in the [firebase](https://github.com/thoutbeckers/kotlin-mpp-example/tree/firebase) branch.
+
 This sample based on the [Jetbrains example](https://github.com/JetBrains/kotlin-mpp-example).
 
 It is different in some ways:
 - It has a "common" dependency in the commonMain source set, the networking library ktor. This is then used by the iOS/Native and Android project by their respective implementation
 - This includes use of co-routines
 - It does not use an "androidLib" template, since this has bugs
+
+## Important note
+Use a suitable Java version for running the Gradle tasks (only JDK8 is required). There are known problems with JDK11 and Gradle 4.7
   
 ## iOS
 
