@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1048278635714",
+    "firebase_url": "https://houtbeckers-mpp-example.firebaseio.com",
+    "project_id": "houtbeckers-mpp-example",
+    "storage_bucket": "houtbeckers-mpp-example.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048278635714:android:3bda81f85dce49fe",
+        "android_client_info": {
+          "package_name": "houtbecke.rs.mpp.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1048278635714-vnb15termuj8j76ng74avjshkcfuspgv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "houtbecke.rs.mpp.android",
+            "certificate_hash": "aba79adff07214aa1f53920ccbf63b61fbb41776"
+          }
+        },
+        {
+          "client_id": "1048278635714-1r0mlbmjjhtjp2kqoki89pln9pm9eh0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZQd9j6Da52GQ3DaFVwt2te2AYFnQOAJ8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1048278635714-1r0mlbmjjhtjp2kqoki89pln9pm9eh0m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

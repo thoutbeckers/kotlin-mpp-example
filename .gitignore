@@ -4,4 +4,3 @@ build/
 .idea/
 .DS_STORE
 local.properties
-/mpp/google-services.json
