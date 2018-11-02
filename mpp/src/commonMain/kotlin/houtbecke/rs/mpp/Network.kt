@@ -9,16 +9,6 @@ import kotlin.coroutines.CoroutineContext
 
 internal expect val CommonCoroutineContext: CoroutineContext
 
-fun valueOfEmoji(s: String): Emoticon {
-    try {
-        return Emoticon.values().filter {
-            it.emoji == s
-        }.single()
-    } catch (e: NoSuchElementException) {
-        throw IllegalArgumentException(e)
-    }
-}
-
 
 enum class Emoticon(val emoji: String) {
     loopy("🤪"), rich("🧐"), nerd("🤓"), cool("😎"), alien("👽"), droid("🤖");
@@ -28,6 +18,15 @@ enum class Emoticon(val emoji: String) {
     }
 }
 
+fun valueOfEmoji(s: String): Emoticon {
+    try {
+        return Emoticon.values().single {
+            it.emoji == s
+        }
+    } catch (e: NoSuchElementException) {
+        throw IllegalArgumentException(e)
+    }
+}
 
 class Network(val firestore: FirestoreMPP) {
 
@@ -56,6 +55,23 @@ class Network(val firestore: FirestoreMPP) {
     fun retrieveMood(emoticon: Emoticon): DocumentSnapshotTaskMPP {
         return firestore.collection("users").document(emoticon.emoji).get()
 
+    }
+
+    var listenerRegistration: ListenerRegistrationMPP? = null
+
+    fun followUpdates(user: String, updateListener: (UserStatusModel) -> Unit, errorListener: OnFailure) {
+        listenerRegistration?.remove()
+        listenerRegistration = firestore.document("/users/$user").onSnapshot(
+            {
+                it.data?.let { data ->
+                    val model = UserStatusModel(user, data)
+                    updateListener.invoke(model)
+                }
+            },
+            {
+                errorListener.invoke(it)
+            }
+        )
     }
 
 }

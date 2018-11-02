@@ -1,23 +1,40 @@
 package houtbecke.rs.mpp
 
+import houtbecke.rs.mpp.binding.MutableListReadWriteProperty
+import houtbecke.rs.mpp.binding.StringReadWriteProperty
 import kotlin.properties.ReadWriteProperty
-
-typealias StringReadWriteProperty =  ReadWriteProperty<Any?, String>
 
 class ViewModel(val network: Network,
                 userImpl: StringReadWriteProperty,
                 moodImpl: StringReadWriteProperty,
-                statusImpl: StringReadWriteProperty) {
+                statusImpl: StringReadWriteProperty,
+                updatesImpl: MutableListReadWriteProperty<UserStatusModel>) {
 
     var user: String by userImpl
     var mood: String by moodImpl
 
     var status: String by statusImpl
 
+    var updates: MutableList<UserStatusModel> by updatesImpl
+
     init {
         user = "🧐"
         mood = "🙀"
         status = "😃 everything is fine"
+        follow()
+
+    }
+
+
+    fun follow() {
+        network.followUpdates(user, {
+            updates.add(it)
+            updates = updates // yes?
+        },   {
+            status = "🤬 Could not listen for updates: $it"
+        })
+        status+=", following updates of $user"
+
     }
 
     // @TODO move interactions outside of the view model? For this simple example Network acts as the Interactor
@@ -33,6 +50,7 @@ class ViewModel(val network: Network,
                     status = "😣 Failed to update! You can only set a cat emoji as a mood! $it"
                 }
                 .onSuccess {
+                    follow()
                     val serverMood = it.get("mood")
                     if (serverMood is String) {
                         mood = serverMood
@@ -59,6 +77,7 @@ class ViewModel(val network: Network,
                     }
                     .onSuccess {
                         status = "$user is $mood"
+                        follow()
                     }
 
         } catch (e:IllegalArgumentException) {
