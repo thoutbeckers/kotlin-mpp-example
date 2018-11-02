@@ -17,6 +17,10 @@ fun getFirestoreInstance(): FirestoreMPP {
 }
 
 class AndroidFirestore(val base: FirebaseFirestore) : FirestoreMPP {
+    override fun document(documentPath: String): DocumentReferenceMPP {
+        return AndroidDocumentReferenceMPP(base.document(documentPath))
+    }
+
     override fun collection(collectionPath: String): CollectionReferenceMPP {
         return AndroidCollectionReferenceMPP(base.collection(collectionPath))
     }
@@ -28,13 +32,32 @@ class AndroidCollectionReferenceMPP(val base: CollectionReference): CollectionRe
     }
 }
 
+class AndroidListenerRegistrationMPP(val base: ListenerRegistration): ListenerRegistrationMPP {
+    // this will remove both the error and document listener.
+    override fun remove() {
+        base.remove()
+    }
+}
+
 class AndroidDocumentReferenceMPP(val base: DocumentReference): DocumentReferenceMPP {
+
     override fun set(data: FirestoreData): TaskMPP<Unit> {
         return UnitAndroidTaskMPP(base.set(data))
     }
 
     override fun get(): DocumentSnapshotTaskMPP {
         return AndroidDocumentSnapshotTaskMPP(base.get())
+    }
+
+    override fun onSnapshot(snapshotListener: OnSnaphot, failureListener: OnFailure): ListenerRegistrationMPP {
+        return AndroidListenerRegistrationMPP (
+            base.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+                if (documentSnapshot != null)
+                    snapshotListener.invoke(AndroidDocumentSnapshotMPP(documentSnapshot))
+                if (firebaseFirestoreException != null)
+                    failureListener.invoke(Exception(firebaseFirestoreException))
+            }
+        )
     }
 }
 
