@@ -12,6 +12,9 @@ It is different in some ways:
 - This includes use of co-routines
 - It does not use an "androidLib" template, since this has bugs
 
+
+# How to develop
+
 ## Important note
 Use a suitable Java version for running the Gradle tasks (only JDK8 is required). There are known problems with JDK11 and Gradle 4.7
   
@@ -27,12 +30,13 @@ To compile a framework for ios simulator from the command line yourself execute:
 ```bash
 ./gradlew :mpp:build
 ```
-
-To compile the framework for a device use the `device` project property:
+To compile the framework for a device (`arm64`) use the `device` project property:
 
 ```bash
 ./gradlew :mpp:build -Pdevice=true
 ```
+
+It's possible to build `arm32` as well, but this is currently not set up in the relevant Gradle task.
 
 To run kotlin tests (including the [common ones](mpp/src/commonTest/kotlin/CalculatorTest.kt)) after they're compiled by Kotlin/Native:
 
@@ -45,6 +49,8 @@ If you do not have the Android SDK installed, you can define an environment vari
 ```bash
 MPP_NO_ANDROID_SDK=true ./gradlew iosTest
 ```
+
+Or see the `firebase` branch, for an alternative `build.gradle` that automatically detects if the Android SDK is installed or not.
 
 You can also add this variable to the custom shell script in the Framework build in XCode.
 
@@ -63,3 +69,11 @@ If you're not on macos, you can run only the android part:
 ```bash
 ./gradlew mpp:assembleDebug
 ```
+
+## Using IDEs
+
+You can use Android Studio for editing the Kotlin and Kotlin/Native code. This works best if you have the actual Android SDK installed.
+
+This should give full code completion for all the different Kotlin sourcesets, including for iOS platform frameworks from the `iosMain` sourceset. If this doesn't work you might have to reimport the project.
+
+XCode can be used as normal, and will tell you when there is an error compiling Kotlin files, but XCode itself does not have decent support for editing Kotlin files. It also does not support stepping through or breakpoints in the Kotlin code. You can use Appcode to debug Kotlin and Swift together, but as of now Appcode does not understand Gradle dependencies so it lacks code completion for editing Kotlin files.
