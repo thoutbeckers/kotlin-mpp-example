@@ -46,15 +46,25 @@ class Network(val firestore: FirestoreMPP) {
         }
     }
 
-    fun setMood(emoticon: Emoticon, mood:String): UnitTaskMPP {
-        return firestore.collection("users").document(emoticon.emoji).set(
-            mapOf("mood" to mood)
-        )
+    fun setMood(emoticon: Emoticon, mood:String, write: OnWrite, failure:OnFailure) {
+        return firestore
+                .collection("users")
+                .document(emoticon.emoji
+                ).set(
+                    mapOf("mood" to mood),
+                    write,
+                    failure
+                )
     }
 
-    fun retrieveMood(emoticon: Emoticon): DocumentSnapshotTaskMPP {
-        return firestore.collection("users").document(emoticon.emoji).get()
+    interface OnUserStatusModelSuccess: OnSuccess<UserStatusModel>
 
+    fun retrieveMood(emoticon: Emoticon, success: OnSuccess<UserStatusModel>, failure: OnFailure) {
+        firestore.collection("users").document(emoticon.emoji).get( { document ->
+            document.data?.let { data ->
+                success(UserStatusModel(emoticon.emoji, data))
+            }
+        }, failure)
     }
 
     var listenerRegistration: ListenerRegistrationMPP? = null

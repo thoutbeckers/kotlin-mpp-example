@@ -1,9 +1,9 @@
 package houtbecke.rs.mpp.firebase
 
 typealias FirestoreData = Map<String, Any>
-typealias DocumentSnapshotTaskMPP = TaskMPP<DocumentSnapshotMPP>
 
 typealias OnSnaphot = (DocumentSnapshotMPP) -> Unit
+typealias OnWrite = () -> Unit
 
 interface FirestoreMPP {
     fun collection(collectionPath:String): CollectionReferenceMPP
@@ -18,14 +18,14 @@ interface ListenerRegistrationMPP {
     fun remove()
 }
 
-
 interface DocumentReferenceMPP {
-    fun get():DocumentSnapshotTaskMPP
-    fun set(data: FirestoreData): TaskMPP<Unit>
 
-    fun onSnapshot(snapshotListener: OnSnaphot, failureListener: OnFailure ): ListenerRegistrationMPP
+    fun get(snapshot: OnSnaphot, failure: OnFailure )
+    fun set(data: FirestoreData, write: OnWrite, failure: OnFailure )
+
+    fun onSnapshot(snapshot: OnSnaphot, failure: OnFailure ): ListenerRegistrationMPP
+
     // TODO do we need a listener for a document that is null? investigate Firestore behaviour
-
 }
 
 interface DocumentSnapshotMPP {

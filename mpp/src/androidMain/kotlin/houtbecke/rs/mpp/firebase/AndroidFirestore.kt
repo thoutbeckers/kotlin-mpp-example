@@ -40,39 +40,38 @@ class AndroidListenerRegistrationMPP(val base: ListenerRegistration): ListenerRe
 }
 
 class AndroidDocumentReferenceMPP(val base: DocumentReference): DocumentReferenceMPP {
-
-    override fun set(data: FirestoreData): TaskMPP<Unit> {
-        return UnitAndroidTaskMPP(base.set(data))
+    override fun set(data: FirestoreData, write: OnWrite, failure: OnFailure) {
+        base.set(data)
+            .addOnSuccessListener {
+                write()
+            }
+            .addOnFailureListener {
+                failure(it)
+            }
     }
 
-    override fun get(): DocumentSnapshotTaskMPP {
-        return AndroidDocumentSnapshotTaskMPP(base.get())
+    override fun get(snapshot: OnSnaphot, failure: OnFailure) {
+        base.get()
+            .addOnSuccessListener {
+                snapshot(AndroidDocumentSnapshotMPP(it))
+            }
+            .addOnFailureListener {
+                failure(it)
+            }
     }
 
-    override fun onSnapshot(snapshotListener: OnSnaphot, failureListener: OnFailure): ListenerRegistrationMPP {
+    override fun onSnapshot(snapshot: OnSnaphot, failure: OnFailure): ListenerRegistrationMPP {
         return AndroidListenerRegistrationMPP (
             base.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
                 if (documentSnapshot != null)
-                    snapshotListener.invoke(AndroidDocumentSnapshotMPP(documentSnapshot))
+                    snapshot.invoke(AndroidDocumentSnapshotMPP(documentSnapshot))
                 if (firebaseFirestoreException != null)
-                    failureListener.invoke(Exception(firebaseFirestoreException))
+                    failure.invoke(Exception(firebaseFirestoreException))
             }
         )
     }
 }
 
-
-class AndroidDocumentSnapshotTaskMPP(override val base: Task<DocumentSnapshot>) : AndroidTaskMPP<DocumentSnapshot, DocumentSnapshotMPP>(base), DocumentSnapshotTaskMPP {
-    override fun task(task: Task<DocumentSnapshot>): TaskMPP<DocumentSnapshotMPP> {
-        return AndroidDocumentSnapshotTaskMPP(task)
-    }
-
-    override fun result(result: DocumentSnapshot?): DocumentSnapshotMPP? {
-        if (result == null)
-            return null
-        return AndroidDocumentSnapshotMPP(result)
-    }
-}
 
 class AndroidDocumentSnapshotMPP(val base: DocumentSnapshot): DocumentSnapshotMPP {
     override val reference: DocumentReferenceMPP

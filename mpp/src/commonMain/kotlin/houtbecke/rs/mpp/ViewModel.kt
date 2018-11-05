@@ -45,21 +45,22 @@ class ViewModel(val network: Network,
 
         try {
             val serverUser = valueOfEmoji(user)
-            network.retrieveMood(serverUser)
-                .onFailure {
+            network.retrieveMood(serverUser,
+                {   userStatusModel:UserStatusModel ->
+                    follow()
+                    userStatusModel.mood?.let {
+                        status = "$user is $it"
+                    } ?: run {
+                        status = "🤷 mood of $serverUser is unknown, try setting one!"
+                    }
+
+
+                } as Network.OnUserStatusModelSuccess,
+                {
                     status = "😣 Failed to update! You can only set a cat emoji as a mood! $it"
                 }
-                .onSuccess {
-                    follow()
-                    val serverMood = it.get("mood")
-                    if (serverMood is String) {
-                        mood = serverMood
-                        status = "$user is $mood"
-                    }
-                    else
-                        status = "🤷 mood of $serverUser is unknown, try setting one!"
+            )
 
-                }
         } catch (e:IllegalArgumentException) {
             status = "🤭 use one of ${Emoticon.values().contentToString()} for a user: $e"
         }
@@ -71,15 +72,15 @@ class ViewModel(val network: Network,
 
         try {
             // example of client side validation, and error from the server
-            network.setMood(valueOfEmoji(user), mood)
-                    .onFailure {
-                        status = "😣 Failed to update! You can only set a cat emoji as a mood! $it"
-                    }
-                    .onSuccess {
-                        status = "$user is $mood"
-                        follow()
-                    }
-
+            network.setMood(valueOfEmoji(user), mood,
+                {
+                    status = "$user is $mood"
+                    follow()
+                },
+                {
+                    status = "😣 Failed to update! You can only set a cat emoji as a mood! $it"
+                }
+            )
         } catch (e:IllegalArgumentException) {
             status = "🤭 use one of ${Emoticon.values().contentToString()} for a user: $e"
         }
