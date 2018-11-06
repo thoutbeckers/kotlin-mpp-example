@@ -30,21 +30,21 @@ fun valueOfEmoji(s: String): Emoticon {
 
 class Network(val firestore: FirestoreMPP) {
 
-    private val client = io.ktor.client.HttpClient()
+    // private val client = io.ktor.client.HttpClient()
 
-    fun about(callback: (String) -> Unit) {
-        GlobalScope.launch(CommonCoroutineContext) {
-            val result: String = client.get {
-                url {
-                    protocol = URLProtocol.HTTPS
-                    port = 443
-                    host = "tools.ietf.org"
-                    encodedPath = "rfc/rfc1866.txt"
-                }
-            }
-            callback(result)
-        }
-    }
+    //    fun about(callback: (String) -> Unit) {
+    //        GlobalScope.launch(CommonCoroutineContext) {
+    //            val result: String = client.get {
+    //                url {
+    //                    protocol = URLProtocol.HTTPS
+    //                    port = 443
+    //                    host = "tools.ietf.org"
+    //                    encodedPath = "rfc/rfc1866.txt"
+    //                }
+    //            }
+    //            callback(result)
+    //        }
+    //    }
 
     fun setMood(emoticon: Emoticon, mood:String, write: OnWrite, failure:OnFailure) {
         return firestore
