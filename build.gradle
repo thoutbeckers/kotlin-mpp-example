@@ -1,6 +1,6 @@
 buildscript {
-    ext.kotlin_version = '1.3.0-rc-190'
-    ext.ktor_version = '1.0.0-beta-1'
+    ext.kotlin_version = '1.3.0'
+    ext.ktor_version = '1.0.0-beta-3'
 
     repositories {
         google()
