@@ -1,4 +1,14 @@
+platform :ios, '10.0'
+inhibit_all_warnings!
+use_frameworks!
+
+def pods
+    pod 'Firebase/Core'
+    pod 'Firebase/Auth'
+    pod 'Firebase/Firestore'
+    pod 'GoogleUtilities'
+end
+
 target 'iosApp' do
-  pod 'Firebase/Core'
-  pod 'Firebase/Firestore'
+    pods
 end
