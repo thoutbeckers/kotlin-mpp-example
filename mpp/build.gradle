@@ -102,15 +102,14 @@ kotlin {
             androidMain {
                 dependencies {
                     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-                    implementation "io.ktor:ktor-client-android:1.0.0-beta-1"
+                    implementation "io.ktor:ktor-client-android:$ktor_version"
                 }
             }
         }
 
         iosMain {
             dependencies {
-                implementation "io.ktor:ktor-client-ios:1.0.0-beta-1"
-                implementation "io.ktor:ktor-client-json-ios:1.0.0-beta-1"
+                implementation "io.ktor:ktor-client-ios:$ktor_version"
             }
         }
     }
