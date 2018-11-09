@@ -56,9 +56,9 @@ You can also add this variable to the custom shell script in the Framework build
 
 ## Android
 
-The application can be built and executed on a device or emulator using Android Studio (tested with 3.2).
+The application can be built and executed on a device or emulator using Android Studio (tested with 3.2.1).
 
-One can also compile the application and run tests from the command line:
+You can also compile the application and run tests from the command line:
 
 ```bash
 ./gradlew :mpp:build
@@ -73,6 +73,8 @@ If you're not on macos, you can run only the android part:
 ## Using IDEs
 
 You can use Android Studio for editing the Kotlin and Kotlin/Native code. This works best if you have the actual Android SDK installed.
+
+Make sure you update the Kotlin plugin to 1.3 (Android Studio will prompt you about this on startup). If you have an error at the end of syncing the project this is the likely cause.
 
 This should give full code completion for all the different Kotlin sourcesets, including for iOS platform frameworks from the `iosMain` sourceset. If this doesn't work you might have to reimport the project.
 
